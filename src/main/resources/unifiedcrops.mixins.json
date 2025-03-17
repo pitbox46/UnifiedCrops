@@ -5,6 +5,9 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "unifiedcrops.refmap.json",
   "mixins": [
+    "LootPoolMixin",
+    "RecipeManagerMixin",
+    "ReloadableServerResourcesMixin"
   ],
   "client": [
   ],
