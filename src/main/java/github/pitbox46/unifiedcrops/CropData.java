@@ -16,7 +16,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
-import java.util.Map;
 import java.util.function.Predicate;
 
 public record CropData(HolderSet<Item> items, Holder<Item> defaultItem) implements Predicate<ItemStack> {

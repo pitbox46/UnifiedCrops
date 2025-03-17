@@ -9,10 +9,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.util.Lazy;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import org.slf4j.Logger;
 
@@ -29,6 +31,7 @@ public class UnifiedCrops {
     public static final String MODID = "unifiedcrops";
     public static final Logger LOGGER = LogUtils.getLogger();
     public static final ExecutorService BACKGROUND_THREAD = Executors.newSingleThreadExecutor();
+    public static final boolean GEN_CROP_MAP = false;
 
     public static List<CropData> CROP_DATA;
     public static FutureTask<Map<Item,CropData>> CROP_MAP_FUTURE;
@@ -44,14 +47,6 @@ public class UnifiedCrops {
         NeoForge.EVENT_BUS.register(this);
     }
 
-    public static ItemStack convertStack(ItemStack stack) {
-        CropData data = CROP_MAP.get().get(stack.getItem());
-        if (data == null) {
-            return stack;
-        }
-        return new ItemStack(data.defaultItem().value(), stack.getCount());
-    }
-
     @SubscribeEvent
     public void onItemDropped(EntityJoinLevelEvent event) {
         if (event.getEntity() instanceof ItemEntity itemEntity) {
@@ -61,6 +56,14 @@ public class UnifiedCrops {
                 itemEntity.setItem(converted);
             }
         }
+    }
+
+    public static ItemStack convertStack(ItemStack stack) {
+        CropData data = CROP_MAP.get().get(stack.getItem());
+        if (data == null) {
+            return stack;
+        }
+        return new ItemStack(data.defaultItem().value(), stack.getCount());
     }
 
     public static Map<Item, CropData> cropMap() {
