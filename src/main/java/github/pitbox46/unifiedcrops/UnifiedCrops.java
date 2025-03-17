@@ -3,14 +3,10 @@ package github.pitbox46.unifiedcrops;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.ReloadableServerResources;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
@@ -21,7 +17,6 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import org.slf4j.Logger;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -35,9 +30,9 @@ public class UnifiedCrops {
     public static final Logger LOGGER = LogUtils.getLogger();
     public static final ExecutorService BACKGROUND_THREAD = Executors.newSingleThreadExecutor();
 
-
-    public static FutureTask<Map<Item,Item>> CROP_MAP_FUTURE;
-    public static Lazy<Map<Item,Item>> CROP_MAP = Lazy.of(() -> {
+    public static List<CropData> CROP_DATA;
+    public static FutureTask<Map<Item,CropData>> CROP_MAP_FUTURE;
+    public static Lazy<Map<Item,CropData>> CROP_MAP = Lazy.of(() -> {
         try {
             return CROP_MAP_FUTURE.get();
         } catch (InterruptedException | ExecutionException e) {
@@ -50,26 +45,34 @@ public class UnifiedCrops {
     }
 
     public static ItemStack convertStack(ItemStack stack) {
-        Item item = CROP_MAP.get().get(stack.getItem());
-        if (item == null) {
+        CropData data = CROP_MAP.get().get(stack.getItem());
+        if (data == null) {
             return stack;
         }
-        return new ItemStack(item, stack.getCount());
+        return new ItemStack(data.defaultItem().value(), stack.getCount());
     }
 
     @SubscribeEvent
     public void onItemDropped(EntityJoinLevelEvent event) {
         if (event.getEntity() instanceof ItemEntity itemEntity) {
             ItemStack stack = itemEntity.getItem();
-            ItemStack converted = CropData.convert(CROP_MAP.get(), stack);
+            ItemStack converted = CropData.convert(stack);
             if (stack != converted) {
                 itemEntity.setItem(converted);
             }
         }
     }
 
-    public static Map<Item, Item> cropMap() {
+    public static Map<Item, CropData> cropMap() {
         return CROP_MAP.get();
+    }
+
+    public static Item getDefaultCrop(Item item) {
+        CropData data = CROP_MAP.get().get(item);
+        if (data == null) {
+            return null;
+        }
+        return data.defaultItem().value();
     }
 
     /**
@@ -83,25 +86,18 @@ public class UnifiedCrops {
                     "crop_data.json",
                     registryAccess
             );
-            List<CropData> cropDataList = JsonUtils.readFromJson(cropFile, registryAccess);
+            CROP_DATA = JsonUtils.readFromJson(cropFile, registryAccess);
 
-            ImmutableMap.Builder<Item, Item> mapBuilder = new ImmutableMap.Builder<>();
-            BuiltInRegistries.ITEM.stream().forEach(item -> cropDataList.stream()
+            ImmutableMap.Builder<Item, CropData> mapBuilder = new ImmutableMap.Builder<>();
+            BuiltInRegistries.ITEM.stream().forEach(item -> CROP_DATA.stream()
                     .filter(cropData -> cropData.test(item))
-                    .forEach(cropData -> mapBuilder.put(item, cropData.defaultItem().value()))
+                    .forEach(cropData -> mapBuilder.put(item, cropData))
             );
             LOGGER.info("Crop map finished building");
             return mapBuilder.build();
         });
         BACKGROUND_THREAD.submit(CROP_MAP_FUTURE);
         LOGGER.info("Crop map future created");
-    }
-
-    /**
-     * Fires on separate thread
-     * @param rsr
-     */
-    public static void onServerResourcesLoaded(ReloadableServerResources rsr) {
     }
 
     /*TODO

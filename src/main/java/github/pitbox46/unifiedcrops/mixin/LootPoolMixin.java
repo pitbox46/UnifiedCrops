@@ -14,6 +14,9 @@ import java.util.function.Consumer;
 
 @Mixin(LootPool.class)
 public class LootPoolMixin {
+    /**
+     * Replaces generated loot with their converted form
+     */
     @Redirect(method = "addRandomItems", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/storage/loot/functions/LootItemFunction;decorate(Ljava/util/function/BiFunction;Ljava/util/function/Consumer;Lnet/minecraft/world/level/storage/loot/LootContext;)Ljava/util/function/Consumer;"))
     private Consumer<ItemStack> consumeItemStack(BiFunction<ItemStack, LootContext, ItemStack> stackModification, Consumer<ItemStack> originalConsumer, LootContext lootContext) {
         Consumer<ItemStack> vanillaConsumer = LootItemFunction.decorate(stackModification, originalConsumer, lootContext);

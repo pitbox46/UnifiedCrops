@@ -2,7 +2,6 @@ package github.pitbox46.unifiedcrops;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -12,6 +11,7 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryCodecs;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
@@ -37,8 +37,24 @@ public record CropData(HolderSet<Item> items, Holder<Item> defaultItem) implemen
         return items.contains(item.builtInRegistryHolder());
     }
 
-    public static ItemStack convert(Map<Item, Item> cachedItems, ItemStack stack) {
-        Item convertedItem = cachedItems.get(stack.getItem());
+    public ResourceLocation getTag() {
+        return ResourceLocation.fromNamespaceAndPath(
+                UnifiedCrops.MODID,
+                defaultItem().getRegisteredName().replace(":", ".")
+        );
+    }
+
+    public static ResourceLocation createMappedRL(Item item1, Item item2) {
+        return ResourceLocation.fromNamespaceAndPath(
+                UnifiedCrops.MODID,
+                item1.toString().replace(":", ".")
+                        + "-"
+                        + item2.toString().replace(":", ".")
+        );
+    }
+
+    public static ItemStack convert(ItemStack stack) {
+        Item convertedItem = UnifiedCrops.getDefaultCrop(stack.getItem());
         if (convertedItem == null) {
             return stack;
         }
