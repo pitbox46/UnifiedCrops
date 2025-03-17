@@ -43,7 +43,6 @@ public abstract class RecipeManagerMixin {
             Recipe<?> recipe = recipeHolder.value();
 
             //Loop through each value of each ingredient and replace them if needed
-            //TODO Replace with a tag
             for (var ingredient : recipe.getIngredients()) {
                 if (ingredient.isCustom()) {
                     continue;

@@ -80,14 +80,14 @@ public class UnifiedCrops {
      * @param registryAccess
      */
     public static void createFuture(HolderLookup.Provider registryAccess) {
-        CROP_MAP_FUTURE = new FutureTask<>(() -> {
-            File cropFile = JsonUtils.initialize(
-                    FMLPaths.CONFIGDIR.get(),
-                    "crop_data.json",
-                    registryAccess
-            );
-            CROP_DATA = JsonUtils.readFromJson(cropFile, registryAccess);
+        File cropFile = JsonUtils.initialize(
+                FMLPaths.CONFIGDIR.get(),
+                "crop_data.json",
+                registryAccess
+        );
+        CROP_DATA = JsonUtils.readFromJson(cropFile, registryAccess);
 
+        CROP_MAP_FUTURE = new FutureTask<>(() -> {
             ImmutableMap.Builder<Item, CropData> mapBuilder = new ImmutableMap.Builder<>();
             BuiltInRegistries.ITEM.stream().forEach(item -> CROP_DATA.stream()
                     .filter(cropData -> cropData.test(item))
@@ -101,7 +101,6 @@ public class UnifiedCrops {
     }
 
     /*TODO
-        - Make sure they all have the same tags
         - Add compat with quests
      */
 }
