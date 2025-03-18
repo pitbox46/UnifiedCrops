@@ -32,3 +32,9 @@ has been created with the following mods:
 The default file can be found [in the Github](https://github.com/pitbox46/UnifiedCrops/blob/master/src/main/resources/crop_data.json)
 if you ever need it. If no file exists in `config/crop_data.json`,
 the default file is copied over to that location.
+
+## Links
+
+- [Github Source Code](https://github.com/pitbox46/UnifiedCrops)
+- [Modrinth](https://modrinth.com/mod/unified-crops)
+- [Curseforge](https://legacy.curseforge.com/minecraft/mc-mods/unified-crops)
