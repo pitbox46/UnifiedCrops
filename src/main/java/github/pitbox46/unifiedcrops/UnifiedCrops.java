@@ -38,7 +38,7 @@ public class UnifiedCrops {
     });
 
     public UnifiedCrops(ModContainer container) {
-        NeoForge.EVENT_BUS.register(this);
+
     }
 
     public static ItemStack convertStack(ItemStack stack) {

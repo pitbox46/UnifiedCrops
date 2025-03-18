@@ -123,7 +123,7 @@ dependencies {
 
     implementation "curse.maven:pams-harvestcraft-2-crops-361385:6221524"
     implementation "curse.maven:farmers-delight-398521:6154807"
-    implementation "curse.maven:mamas-herbs-and-harvest-1130473:5993931"
+    compileOnly "curse.maven:mamas-herbs-and-harvest-1130473:5993931"
     implementation "curse.maven:sushigocrafting-452500:6218250"
 }
 

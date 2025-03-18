@@ -14,7 +14,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class CropMapDataProvider {
-    public static final boolean GEN_CROP_MAP = true;
+    public static final boolean GEN_CROP_MAP = false;
 
     protected static List<CropData> gather() {
         //Seeds
