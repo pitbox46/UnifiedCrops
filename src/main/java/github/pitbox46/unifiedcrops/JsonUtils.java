@@ -31,7 +31,7 @@ public class JsonUtils {
                     //If a default config file doesn't exist, create a null file
                     FileWriter configWriter = new FileWriter(file);
                     List<CropData> emptyBlacklist = new ArrayList<>();
-                    if (UnifiedCrops.GEN_CROP_MAP) {
+                    if (CropMapDataProvider.GEN_CROP_MAP) {
                         emptyBlacklist = CropMapDataProvider.gather();
                     }
                     configWriter.write(GSON.toJson(CropData.encodeToJson(registryAccess, emptyBlacklist)));

@@ -52,14 +52,6 @@ public record CropData(HolderSet<Item> items, Holder<Item> defaultItem) implemen
         );
     }
 
-    public static ItemStack convert(ItemStack stack) {
-        Item convertedItem = UnifiedCrops.getDefaultCrop(stack.getItem());
-        if (convertedItem == null) {
-            return stack;
-        }
-        return new ItemStack(convertedItem, stack.getCount());
-    }
-
     public static JsonElement encodeToJson(HolderLookup.Provider registryAccess, List<CropData> cropData) {
         return LIST_CODEC.encodeStart(registryAccess.createSerializationContext(JsonOps.INSTANCE), cropData)
                 .result()

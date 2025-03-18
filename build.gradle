@@ -116,11 +116,15 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 
 dependencies {
+    runtimeOnly "curse.maven:polymorph-388800:5995380"
+    runtimeOnly "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
+    implementation "curse.maven:patchouli-306770:6164617"
+    implementation "curse.maven:titanium-287342:6308421"
+
     implementation "curse.maven:pams-harvestcraft-2-crops-361385:6221524"
     implementation "curse.maven:farmers-delight-398521:6154807"
     implementation "curse.maven:mamas-herbs-and-harvest-1130473:5993931"
-    runtimeOnly "curse.maven:polymorph-388800:5995380"
-    runtimeOnly "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
+    implementation "curse.maven:sushigocrafting-452500:6218250"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
