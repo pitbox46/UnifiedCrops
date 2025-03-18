@@ -2,17 +2,11 @@ package github.pitbox46.unifiedcrops;
 
 import com.google.gson.*;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.RegistryAccess;
-import net.neoforged.fml.loading.FMLConfig;
-import net.neoforged.fml.loading.FMLPaths;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
 import java.util.List;
 
 public class JsonUtils {
@@ -23,19 +17,18 @@ public class JsonUtils {
         File file = new File(folder.toFile(), fileName);
         try {
             if(file.createNewFile()) {
-                Path defaultConfigPath = FMLPaths.GAMEDIR.get().resolve(FMLConfig.defaultConfigPath()).resolve("itemblacklist.json");
-                if (Files.exists(defaultConfigPath)) {
-                    //If a default config file exists, copy it
-                    Files.copy(defaultConfigPath, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                } else {
-                    //If a default config file doesn't exist, create a null file
-                    FileWriter configWriter = new FileWriter(file);
-                    List<CropData> emptyBlacklist = new ArrayList<>();
+                try (FileOutputStream outputStream = new FileOutputStream(file)) {
                     if (CropMapDataProvider.GEN_CROP_MAP) {
-                        emptyBlacklist = CropMapDataProvider.gather();
+                        try (OutputStreamWriter configWriter = new OutputStreamWriter(outputStream)) {
+                            List<CropData> emptyBlacklist;
+                            emptyBlacklist = CropMapDataProvider.gather();
+                            configWriter.write(GSON.toJson(CropData.encodeToJson(registryAccess, emptyBlacklist)));
+                        }
+                    } else {
+                        try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("crop_data.json")) {
+                            inputStream.transferTo(outputStream);
+                        }
                     }
-                    configWriter.write(GSON.toJson(CropData.encodeToJson(registryAccess, emptyBlacklist)));
-                    configWriter.close();
                 }
             }
         } catch(IOException e) {

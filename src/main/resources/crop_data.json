@@ -1,0 +1,223 @@
+[
+  {
+    "items": [
+      "farmersdelight:cabbage_seeds",
+      "herbsandharvest:cabbage_seeds"
+    ],
+    "default_item": "pamhc2crops:cabbageseeditem"
+  },
+  {
+    "items": "herbsandharvest:eggplant_seeds",
+    "default_item": "pamhc2crops:eggplantseeditem"
+  },
+  {
+    "items": "herbsandharvest:raspberry_seeds",
+    "default_item": "pamhc2crops:raspberryseeditem"
+  },
+  {
+    "items": "herbsandharvest:lettuce_seeds",
+    "default_item": "pamhc2crops:lettuceseeditem"
+  },
+  {
+    "items": "herbsandharvest:asparagus_seeds",
+    "default_item": "pamhc2crops:asparagusseeditem"
+  },
+  {
+    "items": "herbsandharvest:radish_seeds",
+    "default_item": "pamhc2crops:radishseeditem"
+  },
+  {
+    "items": [
+      "farmersdelight:tomato_seeds",
+      "herbsandharvest:tomato_seeds"
+    ],
+    "default_item": "pamhc2crops:tomatoseeditem"
+  },
+  {
+    "items": "herbsandharvest:celery_seeds",
+    "default_item": "pamhc2crops:celeryseeditem"
+  },
+  {
+    "items": "herbsandharvest:strawberry_seeds",
+    "default_item": "pamhc2crops:strawberryseeditem"
+  },
+  {
+    "items": [
+      "herbsandharvest:cucumber_seeds",
+      "sushigocrafting:cucumber_seeds"
+    ],
+    "default_item": "pamhc2crops:cucumberseeditem"
+  },
+  {
+    "items": "herbsandharvest:blueberry_seeds",
+    "default_item": "pamhc2crops:blueberryseeditem"
+  },
+  {
+    "items": "herbsandharvest:cauliflower_seeds",
+    "default_item": "pamhc2crops:cauliflowerseeditem"
+  },
+  {
+    "items": "herbsandharvest:broccoli_seeds",
+    "default_item": "pamhc2crops:broccoliseeditem"
+  },
+  {
+    "items": "herbsandharvest:zucchini_seeds",
+    "default_item": "pamhc2crops:zucchiniseeditem"
+  },
+  {
+    "items": "herbsandharvest:barley_seeds",
+    "default_item": "pamhc2crops:barleyseeditem"
+  },
+  {
+    "items": "sushigocrafting:rice_seeds",
+    "default_item": "pamhc2crops:riceseeditem"
+  },
+  {
+    "items": "herbsandharvest:pineapple_seeds",
+    "default_item": "pamhc2crops:pineappleseeditem"
+  },
+  {
+    "items": "herbsandharvest:blackberry_seeds",
+    "default_item": "pamhc2crops:blackberryseeditem"
+  },
+  {
+    "items": "herbsandharvest:turnip_seeds",
+    "default_item": "pamhc2crops:turnipseeditem"
+  },
+  {
+    "items": "herbsandharvest:rye_seeds",
+    "default_item": "pamhc2crops:ryeseeditem"
+  },
+  {
+    "items": "herbsandharvest:asparagus",
+    "default_item": "pamhc2crops:asparagusitem"
+  },
+  {
+    "items": "herbsandharvest:radish",
+    "default_item": "pamhc2crops:radishitem"
+  },
+  {
+    "items": [
+      "farmersdelight:tomato",
+      "herbsandharvest:tomato"
+    ],
+    "default_item": "pamhc2crops:tomatoitem"
+  },
+  {
+    "items": "herbsandharvest:zucchini",
+    "default_item": "pamhc2crops:zucchiniitem"
+  },
+  {
+    "items": "herbsandharvest:peas",
+    "default_item": "pamhc2crops:peasitem"
+  },
+  {
+    "items": [
+      "farmersdelight:rice",
+      "herbsandharvest:rice",
+      "sushigocrafting:rice"
+    ],
+    "default_item": "pamhc2crops:riceitem"
+  },
+  {
+    "items": "herbsandharvest:blackberry",
+    "default_item": "pamhc2crops:blackberryitem"
+  },
+  {
+    "items": "sushigocrafting:avocado",
+    "default_item": "herbsandharvest:avocado"
+  },
+  {
+    "items": "herbsandharvest:barley",
+    "default_item": "pamhc2crops:barleyitem"
+  },
+  {
+    "items": "herbsandharvest:pineapple",
+    "default_item": "pamhc2crops:pineappleitem"
+  },
+  {
+    "items": "herbsandharvest:celery",
+    "default_item": "pamhc2crops:celeryitem"
+  },
+  {
+    "items": "herbsandharvest:blueberry",
+    "default_item": "pamhc2crops:blueberryitem"
+  },
+  {
+    "items": "herbsandharvest:broccoli",
+    "default_item": "pamhc2crops:broccoliitem"
+  },
+  {
+    "items": "sushigocrafting:cutting_board",
+    "default_item": "farmersdelight:cutting_board"
+  },
+  {
+    "items": "herbsandharvest:turnip",
+    "default_item": "pamhc2crops:turnipitem"
+  },
+  {
+    "items": "herbsandharvest:rye",
+    "default_item": "pamhc2crops:ryeitem"
+  },
+  {
+    "items": [
+      "farmersdelight:cabbage",
+      "herbsandharvest:cabbage"
+    ],
+    "default_item": "pamhc2crops:cabbageitem"
+  },
+  {
+    "items": "herbsandharvest:eggplant",
+    "default_item": "pamhc2crops:eggplantitem"
+  },
+  {
+    "items": "herbsandharvest:raspberry",
+    "default_item": "pamhc2crops:raspberryitem"
+  },
+  {
+    "items": "herbsandharvest:lettuce",
+    "default_item": "pamhc2crops:lettuceitem"
+  },
+  {
+    "items": "herbsandharvest:strawberry",
+    "default_item": "pamhc2crops:strawberryitem"
+  },
+  {
+    "items": [
+      "farmersdelight:onion",
+      "herbsandharvest:onion"
+    ],
+    "default_item": "pamhc2crops:onionitem"
+  },
+  {
+    "items": [
+      "herbsandharvest:cucumber",
+      "sushigocrafting:cucumber"
+    ],
+    "default_item": "pamhc2crops:cucumberitem"
+  },
+  {
+    "items": "herbsandharvest:corn",
+    "default_item": "pamhc2crops:cornitem"
+  },
+  {
+    "items": "herbsandharvest:cauliflower",
+    "default_item": "pamhc2crops:caulifloweritem"
+  },
+  {
+    "items": "sushigocrafting:cooked_rice",
+    "default_item": "farmersdelight:cooked_rice"
+  },
+  {
+    "items": "herbsandharvest:oats",
+    "default_item": "pamhc2crops:oatsitem"
+  },
+  {
+    "items": "sushigocrafting:soy_seeds",
+    "default_item": "pamhc2crops:soybeanseeditem"
+  },
+  {
+    "items": "sushigocrafting:soy_bean",
+    "default_item": "pamhc2crops:soybeanitem"
+  }
+]
