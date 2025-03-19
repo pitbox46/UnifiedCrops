@@ -1,85 +1,55 @@
 package github.pitbox46.unifiedcrops;
 
-import com.buuz135.sushigocrafting.proxy.SushiContent;
-import com.mamailes.herbsandharvest.init.MHHItems;
-import com.pam.pamhc2crops.setup.ItemRegistration;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import vectorwing.farmersdelight.common.registry.ModItems;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class CropMapDataProvider {
-    public static final boolean GEN_CROP_MAP = false;
-
     protected static List<CropData> gather() {
         //Seeds
         Map<String, List<Holder<Item>>> seedMap = new HashMap<>();
 
-        List<DeferredHolder<Item, ? extends Item>> pamsHarvestCraft = new ArrayList<>(ItemRegistration.ITEMS.getEntries());
-        List<DeferredHolder<Item, ? extends Item>> farmersDelight = new ArrayList<>(ModItems.ITEMS.getEntries());
-        List<DeferredHolder<Item, ? extends Item>> herbsAndHarvest = new ArrayList<>(MHHItems.ITEMS.getEntries());
-        List<DeferredHolder<Item, ? extends Item>> sushiGo = new ArrayList<>(SushiContent.Items.REGISTRY.getEntries());
+        BuiltInRegistries.ITEM.keySet().forEach(rl -> {
+            if (!Config.CROP_MODS.get().contains(rl.getNamespace())) {
+                return;
+            }
 
-        addToMap(seedMap, pamsHarvestCraft, "seeditem");
-        addToMap(seedMap, farmersDelight, "_seeds");
-        addToMap(seedMap, herbsAndHarvest, "_seeds");
-        addToMap(seedMap, sushiGo, "_seeds");
+            String cleanPath = rl.getPath()
+                    .replaceAll("_|item", "")
+                    .toLowerCase();
 
-        List<CropData> seeds = seedMap.values().stream()
-                .filter(l -> l.size() > 1)
-                .map(l -> {
-                    Holder<Item> defaultItem = l.removeFirst();
+            String key = cleanPath;
+            if (cleanPath.matches(".*(seed|seeds).*")) {
+                key = cleanPath.replaceFirst("seed|seeds", "seed");
+            }
+
+            seedMap.computeIfAbsent(key, k -> new ArrayList<>())
+                    .add(BuiltInRegistries.ITEM.getHolder(rl).orElseThrow());
+        });
+
+        List<CropData> crops = seedMap.values().stream()
+                .filter(l -> l.size() > 1) //Filter out entries of size 1
+                .peek(l -> l.sort((x, y) -> { //Sort list so that pamhc2crops takes precedent
+                    var rl1 = x.getKey().location();
+                    var rl2 = y.getKey().location();
+                    if (rl1.equals(rl2)) {
+                        return 0;
+                    } else if (rl1.getNamespace().equals(Config.CROP_MODS.get().getFirst())) {
+                        return 1;
+                    } else {
+                        return rl1.compareTo(rl2);
+                    }
+                }))
+                .map(l -> { //Set the first item to be the default item
+                    Holder<Item> defaultItem = l.removeLast();
                     return new CropData(HolderSet.direct(l), defaultItem);
-                }).collect(Collectors.toCollection(ArrayList::new));
+                })
+                .collect(Collectors.toCollection(ArrayList::new));
 
-        //Crops
-        Map<String, List<Holder<Item>>> cropMap = new HashMap<>();
-
-        addToMap(cropMap, pamsHarvestCraft, "item");
-        addToMap(cropMap, farmersDelight, "");
-        addToMap(cropMap, herbsAndHarvest, "");
-        addToMap(cropMap, sushiGo, "");
-
-        List<CropData> crops = cropMap.values().stream()
-                .filter(l -> l.size() > 1)
-                .map(l -> {
-                    Holder<Item> defaultItem = l.removeFirst();
-                    return new CropData(HolderSet.direct(l), defaultItem);
-                }).collect(Collectors.toCollection(ArrayList::new));
-        seeds.addAll(crops);
-
-        //Manual mappings
-        seeds.add(new CropData(
-                HolderSet.direct(SushiContent.Items.SOY_SEEDS),
-                ItemRegistration.soybeanseeditem
-        ));
-        seeds.add(new CropData(
-                HolderSet.direct(SushiContent.Items.SOY_BEAN),
-                ItemRegistration.soybeanitem
-        ));
-
-        return seeds;
-    }
-
-    protected static void addToMap(Map<String, List<Holder<Item>>> dataMap, Collection<DeferredHolder<Item, ? extends Item>> items, String qualifier) {
-        items.removeIf(holder -> addToMap(dataMap, holder, qualifier));
-    }
-
-    protected static boolean addToMap(Map<String, List<Holder<Item>>> dataMap, DeferredHolder<Item, ? extends Item> holder, String qualifier) {
-        ResourceLocation itemID = holder.getId();
-        String itemName = itemID.getPath();
-        if (itemName.endsWith(qualifier)) {
-            dataMap.computeIfAbsent(
-                    itemName.replace(qualifier, ""),
-                    key -> new ArrayList<>()
-            ).add(holder);
-            return true;
-        }
-        return false;
+        return crops;
     }
 }

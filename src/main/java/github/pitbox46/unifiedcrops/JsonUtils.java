@@ -18,16 +18,10 @@ public class JsonUtils {
         try {
             if(file.createNewFile()) {
                 try (FileOutputStream outputStream = new FileOutputStream(file)) {
-                    if (CropMapDataProvider.GEN_CROP_MAP) {
-                        try (OutputStreamWriter configWriter = new OutputStreamWriter(outputStream)) {
-                            List<CropData> emptyBlacklist;
-                            emptyBlacklist = CropMapDataProvider.gather();
-                            configWriter.write(GSON.toJson(CropData.encodeToJson(registryAccess, emptyBlacklist)));
-                        }
-                    } else {
-                        try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("crop_data.json")) {
-                            inputStream.transferTo(outputStream);
-                        }
+                    try (OutputStreamWriter configWriter = new OutputStreamWriter(outputStream)) {
+                        List<CropData> emptyBlacklist;
+                        emptyBlacklist = CropMapDataProvider.gather();
+                        configWriter.write(GSON.toJson(CropData.encodeToJson(registryAccess, emptyBlacklist)));
                     }
                 }
             }
