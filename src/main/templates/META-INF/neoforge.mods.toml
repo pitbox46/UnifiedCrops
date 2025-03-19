@@ -78,5 +78,5 @@ license = "${mod_license}"
 #[features."${mod_id}"]
 #openGLVersion="[3.2,)"
 [mc-publish]
-    modrinth="REPLACE"
+    modrinth="OrjjwusR"
     curseforge=1222826
